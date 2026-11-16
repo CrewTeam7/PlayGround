@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#07111c">
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <title>EUROPA // Reflex Lab</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="Europa Reflex Lab ana sayfa">
+        <span class="brand-mark"><span></span><span></span><span></span></span>
+        <span class="brand-copy"><strong>EUROPA</strong><small>REFLEX LAB <i>•</i> 2049</small></span>
+      </a>
+      <div class="system-status"><span class="status-dot"></span><span>İSTASYON AKTİF</span><span class="status-divider"></span><span class="mono">JOVIAN SYSTEM / E-04</span></div>
+      <button class="sound-toggle" id="soundToggle" aria-label="Ses efektlerini aç veya kapat" title="Ses efektleri">♫ <span>SES AÇIK</span></button>
+    </header>
+
+    <main>
+      <section class="intro-row">
+        <div>
+          <div class="eyebrow"><span class="eyebrow-line"></span> BUZ UYDUSU EĞİTİM PROGRAMI <span class="eyebrow-code">[ 01—03 ]</span></div>
+          <h1>Reflekslerini <span>test et.</span></h1>
+          <p class="intro-copy">Europa'nın düşük yerçekiminde eğitim, bambaşka hissettirir.<br class="desktop-only"> İstasyon simülatörüne hoş geldin, astronot.</p>
+        </div>
+        <div class="planet-card"><div class="planet-orbit"></div><div class="planet"></div><div class="planet-label"><span>EUROPA</span><small>JUPITER IV <b>·</b> −160°C</small></div></div>
+      </section>
+
+      <nav class="mode-tabs" aria-label="Oyun modları">
+        <button class="mode-tab active" data-mode="reflex"><span class="tab-icon">◎</span><span><b>Refleks testi</b><small>Hızını ölç</small></span><span class="tab-arrow">↗</span></button>
+        <button class="mode-tab" data-mode="sandbox"><span class="tab-icon">⌘</span><span><b>Sandbox</b><small>Fiziği keşfet</small></span><span class="tab-arrow">↗</span></button>
+      </nav>
+
+      <section class="workspace">
+        <div class="sim-column">
+          <div class="sim-frame" id="simFrame">
+            <canvas id="gameCanvas" aria-label="Europa fizik simülatörü"></canvas>
+            <div class="sim-topline"><span><i class="live-dot"></i> CANLI SİMÜLASYON</span><span class="mono" id="simClock">00:00:00</span><span class="sim-coords">E 04 <b>/</b> N 12</span></div>
+            <div class="scene-tag"><span class="scene-tag-icon">✳</span><span id="sceneTag">REFLEKS POLİGONU</span></div>
+            <div class="reflex-overlay" id="reflexOverlay">
+              <div class="overlay-content" id="overlayContent">
+                <div class="target-rings"><span></span><span></span><span>↗</span></div>
+                <p class="overlay-kicker">HAZIR MISIN?</p>
+                <h2>İlk sinyali<br>bekle.</h2>
+                <p class="overlay-hint">Yeşil ışıkta hedefe dokun.<br>Kırmızıda bekle.</p>
+                <button class="primary-btn" id="startReflex"><span>TESTİ BAŞLAT</span><b>→</b></button>
+              </div>
+            </div>
+            <div class="sandbox-hint hidden" id="sandboxHint"><span class="hint-cross">＋</span><span>Bir nesne seç, ardından buz pistine dokun.</span></div>
+            <div class="sim-bottomline"><span><span class="keycap">⤢</span> <span id="simCaption">TIKLA VEYA DOKUN</span></span><span class="mono gravity-readout">g <b id="gravityCanvas">1.315</b> m/s²</span></div>
+          </div>
+          <div class="terrain-strip"><span><i class="terrain-mark"></i> CONAMARA KAOS ALANI</span><span class="mono">LAT 09° 20′ N &nbsp; LON 274° 31′ W</span></div>
+        </div>
+
+        <aside class="control-panel">
+          <div class="panel-head"><div><div class="panel-kicker">EĞİTİM MODÜLÜ <span>01</span></div><h2 id="panelTitle">Refleks testi</h2></div><span class="panel-status"><i></i> HAZIR</span></div>
+          <div class="panel-body" id="reflexPanel">
+            <p class="panel-description">Sinyallere doğru zamanda tepki ver. Erken dokunma, puanını düşürür.</p>
+            <div class="stats-grid">
+              <div class="stat-box"><span>ORT. TEPKİ</span><strong id="reactionStat">—<small> ms</small></strong><i class="stat-trend">◷</i></div>
+              <div class="stat-box"><span>EN İYİ SERİ</span><strong id="streakStat">0</strong><i class="stat-trend">↗</i></div>
+            </div>
+            <div class="score-row"><div><span class="score-label">TOPLAM PUAN</span><div class="score-value" id="scoreStat">0000</div></div><div class="round-count"><span>TUR</span><b id="roundStat">0 <i>/ 10</i></b></div></div>
+            <div class="divider"></div>
+            <div class="section-label">NASIL OYNANIR <span>?</span></div>
+            <div class="instruction"><span class="instruction-icon green-icon">●</span><span><b>Yeşil sinyal</b><small>Hedefe olabildiğince hızlı dokun.</small></span><kbd>VUR</kbd></div>
+            <div class="instruction"><span class="instruction-icon red-icon">●</span><span><b>Kırmızı sinyal</b><small>Dokunma. Sinyalin geçmesini bekle.</small></span><kbd class="wait-key">BEKLE</kbd></div>
+            <div class="panel-footer"><span class="tiny-shield">⬡</span><span>EUROPA GRAVİTESİ: <b>0.134G</b></span><span class="footer-info" title="Dünya'nın yerçekiminin yaklaşık %13,4'ü.">i</span></div>
+          </div>
+          <div class="panel-body sandbox-panel hidden" id="sandboxPanel">
+            <p class="panel-description">Düşük yerçekiminde nesneleri fırlat, NPC'leri izle ve fizik kurallarını değiştir.</p>
+            <div class="tool-label">NESNE EKLE <span>SAHNEYE DOKUN</span></div>
+            <div class="spawn-tools">
+              <button class="spawn-tool selected" data-spawn="crate"><span class="tool-preview crate-preview"></span><b>Kasa</b><small>hafif</small></button>
+              <button class="spawn-tool" data-spawn="rock"><span class="tool-preview rock-preview"></span><b>Buz kaya</b><small>ağır</small></button>
+              <button class="spawn-tool" data-spawn="npc"><span class="tool-preview npc-preview"><i></i></span><b>NPC</b><small>gezgin</small></button>
+            </div>
+            <div class="slider-block"><div class="slider-label"><span>YERÇEKİMİ</span><b><span id="gravityValue">1.315</span> <small>m/s²</small></b></div><input id="gravitySlider" type="range" min="0" max="9.81" step="0.005" value="1.315"><div class="range-labels"><span>0 · SIFIR-G</span><span>9.81 · DÜNYA</span></div></div>
+            <div class="slider-block friction-block"><div class="slider-label"><span>BUZ SÜRTÜNMESİ</span><b><span id="frictionValue">0.08</span></b></div><input id="frictionSlider" type="range" min="0" max="0.6" step="0.01" value="0.08"><div class="range-labels"><span>KAYGAN</span><span>YAPIŞKAN</span></div></div>
+            <div class="npc-status"><span class="npc-avatar"><i></i></span><span><b>İSTASYON EKİBİ</b><small><span class="live-dot"></span> <span id="npcCount">0</span> AKTİF NPC</small></span><button id="addNpc" title="NPC ekle">＋</button></div>
+            <div class="sandbox-actions"><button class="secondary-btn" id="pausePhysics">Ⅱ DURAKLAT</button><button class="secondary-btn reset-btn" id="resetSandbox">↻ SIFIRLA</button></div>
+            <div class="panel-footer"><span class="tiny-shield">⬡</span><span>FİZİK MODELİ: <b>EUROPA / ICE-3</b></span><span class="footer-info" title="Gerçek Europa yerçekimi: yaklaşık 1.315 m/s².">i</span></div>
+          </div>
+        </aside>
+      </section>
+      <footer class="page-footer"><span>REFLEX LAB <b>—</b> İNSAN PERFORMANSI ARAŞTIRMA BİRİMİ</span><span>SIM BUILD 2.049.16 <i>•</i> <b>GÜVENLİ BAĞLANTI</b></span></footer>
+    </main>
+  </div>
+  <script src="game.js"></script>
+</body>
+</html>
